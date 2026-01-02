@@ -16,8 +16,8 @@ Generate clean, shareable cards showcasing your GitHub repos - perfect for portf
 
 ```bash
 # Clone the repo
-git clone https://github.com/Shobhit-Nagpal/snaprepo.git
-cd snaprepo
+git clone https://github.com/devndesigner6/snap-your-repo.git
+cd snap-your-repo
 
 # Install dependencies
 npm install
