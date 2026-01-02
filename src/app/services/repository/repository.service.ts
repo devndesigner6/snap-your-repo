@@ -54,16 +54,24 @@ export class RepositoryService {
   }
 
   extractDetails(link: string): { owner: string; repo: string } {
-    const cleanLink = link.endsWith('/') ? link.slice(0, -1) : link;
+    // Remove trailing slash and .git if present
+    let cleanLink = link.endsWith('/') ? link.slice(0, -1) : link;
+    cleanLink = cleanLink.endsWith('.git') ? cleanLink.slice(0, -4) : cleanLink;
 
+    // Extract from URL
     const linkParts = cleanLink.split('/');
+    
+    let repo = linkParts[linkParts.length - 1];
+    let owner = linkParts[linkParts.length - 2];
 
-    const repo = linkParts[linkParts.length - 1];
-    const owner = linkParts[linkParts.length - 2];
+    // Handle edge cases
+    if (!repo || !owner) {
+      throw new Error('Invalid GitHub URL format');
+    }
 
     return {
-      owner,
-      repo,
+      owner: owner.trim(),
+      repo: repo.trim(),
     };
   }
 }
