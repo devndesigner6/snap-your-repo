@@ -1,43 +1,5 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist/snaprepo/browser",
-  "framework": "angular",
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)\\.js$",
-      "dest": "/$1.js"
-    },
-    {
-      "src": "/(.*)\\.css$",
-      "dest": "/$1.css"
-    },
-    {
-      "src": "/(.*)\\.json$",
-      "dest": "/$1.json"
-    },
-    {
-      "src": "/(.*)\\.webmanifest$",
-      "dest": "/$1.webmanifest"
-    },
-    {
-      "src": "/(.*)\\.svg$",
-      "dest": "/$1.svg"
-    },
-    {
-      "src": "/(.*)\\.png$",
-      "dest": "/$1.png"
-    },
-    {
-      "src": "/(.*)\\.ico$",
-      "dest": "/$1.ico"
-    },
-    {
-      "src": "/.*",
-      "dest": "/index.html"
-    }
-  ]
+  "framework": "angular"
 }
