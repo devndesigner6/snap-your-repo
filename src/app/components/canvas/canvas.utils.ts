@@ -465,17 +465,40 @@ export function drawTopLanguages(
 
     // Try to load and draw icon
     const iconSvg = mapLanguageToSvg(lang);
+    const iconX = badgeX + badgePadding;
+    const iconY = badgeY + (badgeHeight - iconSize) / 2;
+
+    const drawFallbackIcon = () => {
+      ctx.save();
+      ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(15, 23, 42, 0.1)';
+      ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.18)' : 'rgba(15, 23, 42, 0.18)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(iconX + iconSize / 2, iconY + iconSize / 2, iconSize / 2, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      ctx.font = '600 18px sans-serif';
+      ctx.fillStyle = currentTheme.primaryTextColor;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(lang.charAt(0).toUpperCase(), iconX + iconSize / 2, iconY + iconSize / 2 + 1);
+      ctx.restore();
+    };
+
     if (iconSvg) {
       const img = new Image();
       img.crossOrigin = 'anonymous';
-      const iconX = badgeX + badgePadding;
-      const iconY = badgeY + (badgeHeight - iconSize) / 2;
-      
+
       img.onload = () => {
         ctx.drawImage(img, iconX, iconY, iconSize, iconSize);
       };
-      
+
+      img.onerror = () => drawFallbackIcon();
+
       img.src = `${devIconsCdn}/${iconSvg}`;
+    } else {
+      drawFallbackIcon();
     }
 
     // Draw language text

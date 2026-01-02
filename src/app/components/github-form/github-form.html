@@ -1,9 +1,9 @@
-<form class="w-full max-w-[600px] px-4 sm:px-6 space-y-6 fade-up glassmorphism rounded-2xl p-8 backdrop-blur-md">
-  <div class="liquid-animation"></div>
+<form class="w-full max-w-[620px] px-5 sm:px-7 space-y-6 fade-up minimal-card rounded-2xl p-8">
   <div class="space-y-2 flex flex-col items-center relative z-10">
-    <h1 class="text-3xl sm:text-4xl font-bold instrument-serif-italic">Snap Your Repository</h1>
-    <p class="text-md sm:text-lg text-gray-600 dark:text-gray-400 instrument-serif">
-      Enter a GitHub repository URL to get started
+    <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Snapshot builder</p>
+    <h1 class="text-3xl sm:text-4xl font-bold instrument-serif-italic text-slate-100">Snap Your Repository</h1>
+    <p class="text-md sm:text-lg text-slate-400 instrument-serif">
+      Generate a shareable card for any GitHub repo in seconds.
     </p>
   </div>
 
@@ -37,7 +37,7 @@
 
   <button
     matButton="filled"
-    class="w-full h-12 text-sm sm:text-base font-medium relative z-10"
+    class="w-full h-12 text-sm sm:text-base font-medium relative z-10 btn-primary"
     (click)="onSubmit()"
     [disabled]="loading()"
   >

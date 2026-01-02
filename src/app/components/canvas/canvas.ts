@@ -7,7 +7,6 @@ import {
   drawAvatar,
   drawAvatarDirect,
   drawBackground,
-  drawLogo,
   drawRepoInfo,
   drawStats,
   drawTopLanguages,
@@ -88,7 +87,7 @@ export class Canvas implements AfterViewInit {
         quadrant.height,
         theme,
       );
-      drawLogo(this.#ctx, Q4.x, Q4.y, quadrant.width, quadrant.height, theme);
+      // Logo already handled in watermark to avoid duplication
       
       // Draw watermark if enabled
       if (this.showWatermark()) {
@@ -138,7 +137,6 @@ export class Canvas implements AfterViewInit {
         quadrant.height,
         theme,
       );
-      drawLogo(this.#ctx, Q4.x, Q4.y, quadrant.width, quadrant.height, theme);
       
       if (this.showWatermark()) {
         drawWatermark(
