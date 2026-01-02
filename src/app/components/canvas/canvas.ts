@@ -5,6 +5,7 @@ import {
   canvas,
   canvasUi,
   drawAvatar,
+  drawAvatarDirect,
   drawBackground,
   drawLogo,
   drawRepoInfo,
@@ -39,31 +40,70 @@ export class Canvas implements AfterViewInit {
 
   #drawSnapshot() {
     drawBackground(this.#ctx, canvasUi.backgroundColor, canvas.width, canvas.height);
-    drawAvatar(this.#ctx, this.canvasData().avatarUrl, Q2.x, Q2.y, quadrant.width, quadrant.height);
-    drawRepoInfo(
-      this.#ctx,
-      this.canvasData().owner,
-      this.canvasData().name,
-      this.canvasData().description,
-      Q1.x,
-      Q1.y,
-      quadrant.width,
-      quadrant.height,
-    );
-    drawStats(
-      this.#ctx,
-      {
-        stars: this.canvasData().stars,
-        forks: this.canvasData().forks,
-        issues: this.canvasData().issues,
-      },
-      Q3.x,
-      Q3.y,
-      quadrant.width,
-      quadrant.height,
-    );
-    drawTopLanguages(this.#ctx, this.canvasData().topLanguages, Q4.x, Q4.y, quadrant.width, quadrant.height);
-    drawLogo(this.#ctx, Q4.x, Q4.y, quadrant.width, quadrant.height);
+    
+    // Load avatar image and redraw when ready
+    const avatarImg = new Image();
+    avatarImg.crossOrigin = 'anonymous';
+    
+    avatarImg.onload = () => {
+      // Redraw everything with avatar
+      drawBackground(this.#ctx, canvasUi.backgroundColor, canvas.width, canvas.height);
+      drawAvatarDirect(this.#ctx, avatarImg, Q2.x, Q2.y, quadrant.width, quadrant.height);
+      drawRepoInfo(
+        this.#ctx,
+        this.canvasData().owner,
+        this.canvasData().name,
+        this.canvasData().description,
+        Q1.x,
+        Q1.y,
+        quadrant.width,
+        quadrant.height,
+      );
+      drawStats(
+        this.#ctx,
+        {
+          stars: this.canvasData().stars,
+          forks: this.canvasData().forks,
+          issues: this.canvasData().issues,
+        },
+        Q3.x,
+        Q3.y,
+        quadrant.width,
+        quadrant.height,
+      );
+      drawTopLanguages(this.#ctx, this.canvasData().topLanguages, Q4.x, Q4.y, quadrant.width, quadrant.height);
+      drawLogo(this.#ctx, Q4.x, Q4.y, quadrant.width, quadrant.height);
+    };
+    
+    avatarImg.onerror = () => {
+      // If avatar fails, draw without it but continue
+      drawRepoInfo(
+        this.#ctx,
+        this.canvasData().owner,
+        this.canvasData().name,
+        this.canvasData().description,
+        Q1.x,
+        Q1.y,
+        quadrant.width,
+        quadrant.height,
+      );
+      drawStats(
+        this.#ctx,
+        {
+          stars: this.canvasData().stars,
+          forks: this.canvasData().forks,
+          issues: this.canvasData().issues,
+        },
+        Q3.x,
+        Q3.y,
+        quadrant.width,
+        quadrant.height,
+      );
+      drawTopLanguages(this.#ctx, this.canvasData().topLanguages, Q4.x, Q4.y, quadrant.width, quadrant.height);
+      drawLogo(this.#ctx, Q4.x, Q4.y, quadrant.width, quadrant.height);
+    };
+    
+    avatarImg.src = this.canvasData().avatarUrl;
   }
 
   #setupCanvas() {

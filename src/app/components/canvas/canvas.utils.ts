@@ -85,6 +85,40 @@ export function drawAvatar(
   img.src = imageUrl;
 }
 
+export function drawAvatarDirect(
+  ctx: CanvasRenderingContext2D,
+  img: HTMLImageElement,
+  quadrantX: number,
+  quadrantY: number,
+  quadrantW: number,
+  quadrantH: number,
+) {
+  // Draw already-loaded image synchronously
+  const centerX = quadrantX + canvasUi.padding + quadrantW / 2;
+  const centerY = quadrantY + quadrantH / 1.5;
+  const radius = 100;
+
+  ctx.save();
+
+  // Create circular clipping path
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.clip();
+
+  // Draw the image
+  ctx.drawImage(img, centerX - radius, centerY - radius, radius * 2, radius * 2);
+
+  ctx.restore();
+
+  // Draw border
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+  ctx.strokeStyle = canvasUi.borderColor;
+  ctx.lineWidth = 3;
+  ctx.stroke();
+}
+
 export function drawRepoInfo(
   ctx: CanvasRenderingContext2D,
   username: string,
