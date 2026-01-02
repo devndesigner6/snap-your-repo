@@ -17,6 +17,8 @@ import { MaybeRepository } from '@/types';
 })
 export class GithubForm implements OnDestroy {
   responseData = output<MaybeRepository>();
+  themeChange = output<string>();
+  watermarkChange = output<boolean>();
 
   link = signal<string>('');
   loading = signal<boolean>(false);

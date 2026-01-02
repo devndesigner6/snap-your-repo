@@ -1,4 +1,5 @@
-<form class="w-full max-w-[600px] px-4 sm:px-6 space-y-6 fade-up">
+<form class="w-full max-w-[600px] px-4 sm:px-6 space-y-6 fade-up glassmorphism rounded-2xl p-8 backdrop-blur-md">
+  <div class="liquid-animation"></div>
   <div class="space-y-2 flex flex-col items-center">
     <h1 class="text-3xl sm:text-4xl font-bold instrument-serif-italic">Snap Your Repository</h1>
     <p class="text-md sm:text-lg text-gray-600 dark:text-gray-400 instrument-serif">
@@ -13,7 +14,7 @@
 
   <mat-form-field class="w-full" subscriptSizing="dynamic">
     <mat-label>Card Theme</mat-label>
-    <mat-select [value]="cardTheme()" (selectionChange)="cardTheme.set($event.value)">
+    <mat-select [value]="cardTheme()" (selectionChange)="cardTheme.set($event.value); themeChange.emit($event.value)">
       <mat-option value="dark">Dark (GitHub)</mat-option>
       <mat-option value="light">Light</mat-option>
       <mat-option value="gradient">Gradient</mat-option>
@@ -25,7 +26,7 @@
     <input 
       type="checkbox" 
       [checked]="showWatermark()" 
-      (change)="showWatermark.set(!showWatermark())"
+      (change)="showWatermark.set(!showWatermark()); watermarkChange.emit(!showWatermark())"
       id="watermark-toggle"
       class="w-4 h-4 cursor-pointer rounded"
     />

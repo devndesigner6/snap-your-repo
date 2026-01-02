@@ -22,6 +22,33 @@ export const canvasUi = {
   padding: 60,
 };
 
+export const themeConfigs: Record<string, any> = {
+  dark: {
+    backgroundColor: '#0D1117',
+    primaryTextColor: '#ffffff',
+    secondaryTextColor: '#f9fafb',
+    borderColor: '#e1e4e8',
+  },
+  light: {
+    backgroundColor: '#ffffff',
+    primaryTextColor: '#0D1117',
+    secondaryTextColor: '#4b5563',
+    borderColor: '#e1e4e8',
+  },
+  gradient: {
+    backgroundColor: 'gradient',
+    primaryTextColor: '#ffffff',
+    secondaryTextColor: '#f9fafb',
+    borderColor: '#e1e4e8',
+  },
+  cyberpunk: {
+    backgroundColor: '#0a0e27',
+    primaryTextColor: '#00ff00',
+    secondaryTextColor: '#00ccff',
+    borderColor: '#ff00ff',
+  },
+};
+
 export const canvas = { width: 1200, height: 630 };
 export const quadrant = {
   width: canvas.width / 2,
@@ -40,7 +67,16 @@ export function drawBackground(
   canvasWidth: number,
   canvasHeight: number,
 ) {
-  ctx.fillStyle = bgColor;
+  if (bgColor === 'gradient') {
+    // Create gradient background
+    const gradient = ctx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
+    gradient.addColorStop(0, '#667eea');
+    gradient.addColorStop(0.5, '#764ba2');
+    gradient.addColorStop(1, '#f093fb');
+    ctx.fillStyle = gradient;
+  } else {
+    ctx.fillStyle = bgColor;
+  }
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 }
 
@@ -430,4 +466,19 @@ function createIconImage(dataUrl: string, convertToWhite = true): HTMLImageEleme
 
   img.onerror = () => console.error('Failed to load image');
   return img;
+}
+
+export function drawWatermark(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  primaryTextColor: string,
+) {
+  ctx.font = 'italic 18px "Instrument Serif", serif';
+  ctx.fillStyle = primaryTextColor;
+  ctx.globalAlpha = 0.5;
+  ctx.textAlign = 'right';
+  ctx.fillText(text, x, y);
+  ctx.globalAlpha = 1;
 }

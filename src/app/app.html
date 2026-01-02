@@ -2,9 +2,17 @@
   <snaprepo-navbar (logoClicked)="showHomePage()"></snaprepo-navbar>
   <main class="flex-1 flex flex-col items-center justify-center">
     @if (canvasInput(); as data) {
-      <snaprepo-canvas [canvasData]="data"></snaprepo-canvas>
+      <snaprepo-canvas 
+        [canvasData]="data"
+        [cardTheme]="cardTheme()"
+        [showWatermark]="showWatermark()">
+      </snaprepo-canvas>
     } @else {
-      <snaprepo-github-form (responseData)="onResponseData($event)"></snaprepo-github-form>
+      <snaprepo-github-form 
+        (responseData)="onResponseData($event)"
+        (themeChange)="cardTheme.set($event)"
+        (watermarkChange)="showWatermark.set($event)">
+      </snaprepo-github-form>
     }
   </main>
   <snaprepo-footer></snaprepo-footer>

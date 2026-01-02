@@ -11,11 +11,13 @@ import {
   drawRepoInfo,
   drawStats,
   drawTopLanguages,
+  drawWatermark,
   Q1,
   Q2,
   Q3,
   Q4,
   quadrant,
+  themeConfigs,
 } from './canvas.utils';
 
 @Component({
@@ -25,6 +27,8 @@ import {
 })
 export class Canvas implements AfterViewInit {
   canvasData = input.required<Repository>();
+  cardTheme = input<string>('dark');
+  showWatermark = input<boolean>(true);
   canvas = viewChild.required<ElementRef<HTMLCanvasElement>>('snaprepoCanvas');
 
   #ctx: CanvasRenderingContext2D;
@@ -39,15 +43,17 @@ export class Canvas implements AfterViewInit {
   }
 
   #drawSnapshot() {
-    drawBackground(this.#ctx, canvasUi.backgroundColor, canvas.width, canvas.height);
+    const theme = themeConfigs[this.cardTheme()] || themeConfigs['dark'];
+    
+    drawBackground(this.#ctx, theme.backgroundColor, canvas.width, canvas.height);
     
     // Load avatar image and redraw when ready
     const avatarImg = new Image();
     avatarImg.crossOrigin = 'anonymous';
     
     avatarImg.onload = () => {
-      // Redraw everything with avatar
-      drawBackground(this.#ctx, canvasUi.backgroundColor, canvas.width, canvas.height);
+      // Redraw everything with avatar and theme
+      drawBackground(this.#ctx, theme.backgroundColor, canvas.width, canvas.height);
       drawAvatarDirect(this.#ctx, avatarImg, Q2.x, Q2.y, quadrant.width, quadrant.height);
       drawRepoInfo(
         this.#ctx,
@@ -73,6 +79,11 @@ export class Canvas implements AfterViewInit {
       );
       drawTopLanguages(this.#ctx, this.canvasData().topLanguages, Q4.x, Q4.y, quadrant.width, quadrant.height);
       drawLogo(this.#ctx, Q4.x, Q4.y, quadrant.width, quadrant.height);
+      
+      // Draw watermark if enabled
+      if (this.showWatermark()) {
+        drawWatermark(this.#ctx, '✨ Made with SnapRepo', canvas.width - 60, canvas.height - 40, theme.primaryTextColor);
+      }
     };
     
     avatarImg.onerror = () => {
@@ -101,6 +112,10 @@ export class Canvas implements AfterViewInit {
       );
       drawTopLanguages(this.#ctx, this.canvasData().topLanguages, Q4.x, Q4.y, quadrant.width, quadrant.height);
       drawLogo(this.#ctx, Q4.x, Q4.y, quadrant.width, quadrant.height);
+      
+      if (this.showWatermark()) {
+        drawWatermark(this.#ctx, '✨ Made with SnapRepo', canvas.width - 60, canvas.height - 40, theme.primaryTextColor);
+      }
     };
     
     avatarImg.src = this.canvasData().avatarUrl;

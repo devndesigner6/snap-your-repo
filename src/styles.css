@@ -94,6 +94,43 @@ input:focus {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
+/* Glassmorphism effect */
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Liquid animation background */
+.liquid-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+  animation: liquidMove 8s ease-in-out infinite;
+  z-index: -1;
+  pointer-events: none;
+}
+
+@keyframes liquidMove {
+  0%, 100% {
+    background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+  }
+  50% {
+    background: linear-gradient(225deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+  }
+}
+
+/* Canvas rounded border */
+canvas {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 .instrument-serif-italic {
   font-family: "Instrument Serif", serif;
   font-weight: 400;

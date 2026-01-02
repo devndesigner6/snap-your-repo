@@ -13,6 +13,8 @@ import { MaybeRepository } from '@/types';
 })
 export class App {
   protected canvasInput = signal<MaybeRepository>(undefined);
+  cardTheme = signal<string>('dark');
+  showWatermark = signal<boolean>(true);
 
   showHomePage() {
     if (this.canvasInput()) {
