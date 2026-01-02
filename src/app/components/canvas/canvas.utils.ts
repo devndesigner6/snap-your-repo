@@ -295,7 +295,7 @@ export function drawStats(
     const itemX = quadrantX + index * itemWidth;
     const itemCenterX = itemX + itemWidth / 2;
 
-    drawStatItem(ctx, stat, itemCenterX, centerY);
+    drawStatItem(ctx, stat, itemCenterX, centerY, currentTheme);
   });
 }
 
@@ -304,6 +304,7 @@ function drawStatItem(
   stat: { icon: HTMLImageElement; value: number; label: string },
   centerX: number,
   centerY: number,
+  theme: any,
 ) {
   const iconSize = 24;
   const numberFont = 'bold 24px sans-serif';
@@ -335,14 +336,14 @@ function drawStatItem(
 
   // Draw number (aligned to icon baseline)
   ctx.font = numberFont;
-  ctx.fillStyle = currentTheme.primaryTextColor;
+  ctx.fillStyle = theme.primaryTextColor;
   ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
   ctx.fillText(numberText, topRowStartX + iconSize + iconNumberGap, startY);
 
   // Draw label (centered below)
   ctx.font = labelFont;
-  ctx.fillStyle = currentTheme.secondaryTextColor;
+  ctx.fillStyle = theme.secondaryTextColor;
   ctx.textAlign = 'left';
   ctx.fillText(stat.label, labelStartX, startY + topRowHeight + numberLabelGap);
 }
