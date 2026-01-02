@@ -2,10 +2,10 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist/snaprepo",
   "framework": "angular",
-  "rewrites": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "^/(?!api).*",
+      "dest": "/index.html"
     }
   ]
 }
