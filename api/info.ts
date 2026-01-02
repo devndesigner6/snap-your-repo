@@ -2,19 +2,19 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 
 const axios = require('axios');
 
-// Add CORS headers
-const corsHeaders = {
-  'Access-Control-Allow-Credentials': 'true',
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
-  'Access-Control-Allow-Headers':
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
-};
+export default async (req: VercelRequest, res: VercelResponse): Promise<void> => {
+  // Add CORS headers
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
 
-export default async (req: VercelRequest, res: VercelResponse) => {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
-    res.status(200).setHeader('Access-Control-Allow-Origin', '*').end();
+    res.status(200).end();
     return;
   }
 
@@ -22,19 +22,21 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
   // Validate input
   if (!owner || !repo) {
-    return res.status(400).json({
+    res.status(400).json({
       success: false,
       error: 'Missing owner or repo parameter',
     });
+    return;
   }
 
   try {
     // Fetch repository data from GitHub API
+    const githubToken = process.env['GITHUB_TOKEN'] || '';
     const repoResponse = await axios.get(
       `https://api.github.com/repos/${owner}/${repo}`,
       {
         headers: {
-          Authorization: `token ${process.env.GITHUB_TOKEN || ''}`,
+          Authorization: `token ${githubToken}`,
           'Accept': 'application/vnd.github.v3+json',
         },
       }
@@ -49,7 +51,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
         `https://api.github.com/repos/${owner}/${repo}/languages`,
         {
           headers: {
-            Authorization: `token ${process.env.GITHUB_TOKEN || ''}`,
+            Authorization: `token ${githubToken}`,
           },
         }
       );
@@ -76,7 +78,6 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       updatedAt: repoData.updated_at,
     };
 
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json({
       success: true,
@@ -93,7 +94,6 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       errorMessage = 'API rate limit exceeded. Please try again later.';
     }
 
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Content-Type', 'application/json');
     res.status(error.response?.status || 500).json({
       success: false,
