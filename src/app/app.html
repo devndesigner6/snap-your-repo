@@ -1,13 +1,13 @@
 <div class="flex flex-col min-h-screen">
-  <reposhot-navbar (logoClicked)="showHomePage()"></reposhot-navbar>
+  <snaprepo-navbar (logoClicked)="showHomePage()"></snaprepo-navbar>
   <main class="flex-1 flex flex-col items-center justify-center">
     @if (canvasInput(); as data) {
-      <reposhot-canvas [canvasData]="data"></reposhot-canvas>
+      <snaprepo-canvas [canvasData]="data"></snaprepo-canvas>
     } @else {
-      <reposhot-github-form (responseData)="onResponseData($event)"></reposhot-github-form>
+      <snaprepo-github-form (responseData)="onResponseData($event)"></snaprepo-github-form>
     }
   </main>
-  <reposhot-footer></reposhot-footer>
+  <snaprepo-footer></snaprepo-footer>
 </div>
 
 <router-outlet />

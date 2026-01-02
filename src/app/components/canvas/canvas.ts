@@ -18,16 +18,16 @@ import {
 } from './canvas.utils';
 
 @Component({
-  selector: 'reposhot-canvas',
+  selector: 'snaprepo-canvas',
   imports: [MatButtonModule],
   templateUrl: './canvas.html',
 })
 export class Canvas implements AfterViewInit {
   canvasData = input.required<Repository>();
-  canvas = viewChild.required<ElementRef<HTMLCanvasElement>>('reposhotCanvas');
+  canvas = viewChild.required<ElementRef<HTMLCanvasElement>>('snaprepoCanvas');
 
   #ctx: CanvasRenderingContext2D;
-  #imageName = 'reposhot-image.png';
+  #imageName = 'snaprepo-image.png';
 
   ngAfterViewInit(): void {
     this.#initSetup();

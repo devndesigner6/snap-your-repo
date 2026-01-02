@@ -5,16 +5,17 @@
     "packageManager": "npm",
     "schematicCollections": [
       "angular-eslint"
-    ]
+    ],
+    "analytics": "a6b6962d-e498-4e85-bb47-2bf6e92907c4"
   },
   "newProjectRoot": "projects",
   "projects": {
-    "reposhot": {
+    "snaprepo": {
       "projectType": "application",
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "prefix": "reposhot",
+      "prefix": "snaprepo",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
@@ -66,10 +67,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "reposhot:build:production"
+              "buildTarget": "snaprepo:build:production"
             },
             "development": {
-              "buildTarget": "reposhot:build:development"
+              "buildTarget": "snaprepo:build:development"
             }
           },
           "defaultConfiguration": "development"

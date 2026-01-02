@@ -1,4 +1,4 @@
-# reposhot
+# snaprepo
 
 > Create beautiful snapshots of your GitHub repositories.
 
@@ -16,8 +16,8 @@ Generate clean, shareable cards showcasing your GitHub repos - perfect for portf
 
 ```bash
 # Clone the repo
-git clone https://github.com/Shobhit-Nagpal/reposhot.git
-cd reposhot
+git clone https://github.com/Shobhit-Nagpal/snaprepo.git
+cd snaprepo
 
 # Install dependencies
 npm install

@@ -6,7 +6,7 @@ import { Injectable, signal } from '@angular/core';
 })
 export class ThemeService {
   readonly #defaultTheme = 'system';
-  readonly #themeKey = 'reposhot_theme';
+  readonly #themeKey = 'snaprepo_theme';
 
   readonly theme = signal<ThemeMode>(this.#defaultTheme);
 

@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
-  selector: 'reposhot-navbar',
+  selector: 'snaprepo-navbar',
   imports: [MatToolbarModule, MatIconModule],
   templateUrl: './navbar.html',
 })

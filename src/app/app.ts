@@ -7,7 +7,7 @@ import { GithubForm } from './components/github-form/github-form';
 import { MaybeRepository } from '@/types';
 
 @Component({
-  selector: 'reposhot-root',
+  selector: 'snaprepo-root',
   imports: [RouterOutlet, Navbar, Footer, Canvas, GithubForm],
   templateUrl: './app.html',
 })

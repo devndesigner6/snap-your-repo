@@ -19,7 +19,7 @@ module.exports = defineConfig([
         "error",
         {
           type: "attribute",
-          prefix: "reposhot",
+          prefix: "snaprepo",
           style: "camelCase",
         },
       ],
@@ -27,7 +27,7 @@ module.exports = defineConfig([
         "error",
         {
           type: "element",
-          prefix: "reposhot",
+          prefix: "snaprepo",
           style: "kebab-case",
         },
       ],

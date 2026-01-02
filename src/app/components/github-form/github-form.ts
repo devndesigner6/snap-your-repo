@@ -9,7 +9,7 @@ import { RepositoryService } from '@/app/services/repository/repository.service'
 import { MaybeRepository } from '@/types';
 
 @Component({
-  selector: 'reposhot-github-form',
+  selector: 'snaprepo-github-form',
   imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './github-form.html',
 })
