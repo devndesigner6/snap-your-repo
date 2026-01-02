@@ -4,6 +4,10 @@
   "framework": "angular",
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
       "src": "/(.*)\\.js$",
       "dest": "/$1.js"
     },
