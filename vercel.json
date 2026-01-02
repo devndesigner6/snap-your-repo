@@ -7,10 +7,9 @@
       "runtime": "@vercel/node@2.13.1"
     }
   },
-  "env": [
-    {
-      "key": "GITHUB_TOKEN",
+  "env": {
+    "GITHUB_TOKEN": {
       "description": "GitHub Personal Access Token for API requests"
     }
-  ]
+  }
 }
