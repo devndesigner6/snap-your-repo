@@ -1,56 +1,73 @@
-<form class="w-full max-w-[600px] px-4 sm:px-6 space-y-6 fade-up glassmorphism rounded-2xl p-8">
-  <div class="liquid-animation"></div>
-  <div class="space-y-2 flex flex-col items-center relative z-10">
-    <h1 class="text-3xl sm:text-4xl font-bold instrument-serif-italic gradient-text">Snap Your Repository</h1>
-    <p class="text-md sm:text-lg text-gray-300 dark:text-gray-400 instrument-serif">
-      Enter a GitHub repository URL to get started
-    </p>
+<div class="w-full max-w-[800px] px-4 sm:px-6 space-y-8 fade-up">
+  <!-- Hero Section with Glass -->
+  <div class="glassmorphism rounded-3xl p-12 text-center relative">
+    <div class="liquid-animation"></div>
+    <div class="relative z-10">
+      <h1 class="text-4xl sm:text-5xl font-bold instrument-serif-italic mb-4 text-white">Snap Your Repository</h1>
+      <p class="text-lg sm:text-xl text-gray-300 instrument-serif">
+        Enter a GitHub repository URL to get started
+      </p>
+    </div>
   </div>
 
-  <mat-form-field class="w-full relative z-10" subscriptSizing="dynamic" [class.skeleton]="loading()">
-    <mat-label>Repository URL</mat-label>
-    <input matInput [value]="link()" (input)="onInputEvent($event)" placeholder="https://github.com/owner/repo" [disabled]="loading()" />
-  </mat-form-field>
+  <!-- Form Controls as Separate Glass Cards -->
+  <div class="space-y-4">
+    <!-- URL Input Glass Card -->
+    <div class="glass-control rounded-2xl p-6 relative">
+      <div class="liquid-animation-small"></div>
+      <mat-form-field class="w-full relative z-10" subscriptSizing="dynamic" [class.skeleton]="loading()">
+        <mat-label>Repository URL</mat-label>
+        <input matInput [value]="link()" (input)="onInputEvent($event)" placeholder="https://github.com/owner/repo" [disabled]="loading()" />
+      </mat-form-field>
+    </div>
 
-  <mat-form-field class="w-full relative z-10" subscriptSizing="dynamic" [class.skeleton]="loading()">
-    <mat-label>Card Theme</mat-label>
-    <mat-select [value]="cardTheme()" (selectionChange)="cardTheme.set($event.value); themeChange.emit($event.value)" [disabled]="loading()">
-      <mat-option value="dark">Dark (GitHub)</mat-option>
-      <mat-option value="light">Light</mat-option>
-      <mat-option value="gradient">Gradient</mat-option>
-      <mat-option value="cyberpunk">Cyberpunk</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <!-- Theme Selector Glass Card -->
+    <div class="glass-control rounded-2xl p-6 relative">
+      <div class="liquid-animation-small"></div>
+      <mat-form-field class="w-full relative z-10" subscriptSizing="dynamic" [class.skeleton]="loading()">
+        <mat-label>Card Theme</mat-label>
+        <mat-select [value]="cardTheme()" (selectionChange)="cardTheme.set($event.value); themeChange.emit($event.value)" [disabled]="loading()">
+          <mat-option value="dark">Dark (GitHub)</mat-option>
+          <mat-option value="light">Light</mat-option>
+          <mat-option value="matrix">Matrix</mat-option>
+          <mat-option value="gradient">Gradient</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-  <div class="flex items-center gap-3 pl-2 relative z-10">
-    <input 
-      type="checkbox" 
-      [checked]="showWatermark()" 
-      (change)="showWatermark.set(!showWatermark()); watermarkChange.emit(!showWatermark())"
-      id="watermark-toggle"
-      class="w-4 h-4 cursor-pointer rounded"
-    />
-    <label for="watermark-toggle" class="cursor-pointer text-sm text-gray-700 dark:text-gray-300">
-      Show watermark
-    </label>
-  </div>
+    <!-- Watermark Toggle Glass Card -->
+    <div class="glass-control rounded-2xl p-6 relative flex items-center gap-4">
+      <div class="liquid-animation-small"></div>
+      <input 
+        type="checkbox" 
+        [checked]="showWatermark()" 
+        (change)="showWatermark.set(!showWatermark()); watermarkChange.emit(!showWatermark())"
+        id="watermark-toggle"
+        class="w-5 h-5 cursor-pointer rounded relative z-10"
+      />
+      <label for="watermark-toggle" class="cursor-pointer text-base text-gray-200 relative z-10 flex-1">
+        Show watermark
+      </label>
+    </div>
 
-  <button
-    matButton="filled"
-    class="w-full h-12 text-sm sm:text-base font-medium relative z-10 gradient-button"
-    (click)="onSubmit()"
-    [disabled]="loading()"
-  >
-    @if (loading()) {
-      <span class="flex items-center justify-center gap-2">
-        <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
+    <!-- Submit Button -->
+    <button
+      matButton="filled"
+      class="w-full h-14 text-base font-medium gradient-button rounded-2xl"
+      (click)="onSubmit()"
+      [disabled]="loading()"
+    >
+      @if (loading()) {
+        <span class="flex items-center justify-center gap-2">
+          <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          {{ buttonText() }}
+        </span>
+      } @else {
         {{ buttonText() }}
-      </span>
-    } @else {
-      {{ buttonText() }}
-    }
-  </button>
-</form>
+      }
+    </button>
+  </div>
+</div>
