@@ -101,18 +101,93 @@ mat-form-field {
 }
 
 mat-form-field::after {
-  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 2px;\n  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);\n  transform: scaleX(0);\n  transition: transform 0.3s ease;\n}\n\nmat-form-field:focus-within::after {\n  transform: scaleX(1);\n}
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
 
-/* Loading skeleton */
+mat-form-field:focus-within::after {
+  transform: scaleX(1);
+}
+
+/* Loading skeleton with shimmer */
 .skeleton {
-  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background: linear-gradient(90deg, 
+    rgba(30, 41, 59, 0.5) 25%, 
+    rgba(51, 65, 85, 0.5) 50%, 
+    rgba(30, 41, 59, 0.5) 75%
+  );
   background-size: 200% 100%;
-  animation: loading 2s infinite;
+  animation: loading 1.5s ease-in-out infinite;
+  pointer-events: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: shimmerMove 2s infinite;
+}
+
+@keyframes shimmerMove {
+  0% { left: -100%; }
+  100% { left: 100%; }
 }
 
 @keyframes loading {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
+}
+
+/* Gradient button */
+.gradient-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  background-size: 200% 200%;
+  animation: gradientSlide 3s ease infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.gradient-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.gradient-button:hover::before {
+  left: 100%;
+}
+
+@keyframes gradientSlide {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 /* Card animations with glow */
