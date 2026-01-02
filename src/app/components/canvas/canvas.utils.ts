@@ -19,33 +19,38 @@ export const canvasUi = {
   borderColor: '#e1e4e8',
   primaryTextColor: '#ffffff',
   secondaryTextColor: '#f9fafb',
+  isDark: true,
   padding: 60,
 };
 
 export const themeConfigs: Record<string, any> = {
   dark: {
-    backgroundColor: '#0D1117',
-    primaryTextColor: '#ffffff',
-    secondaryTextColor: '#f9fafb',
-    borderColor: '#e1e4e8',
+    backgroundColor: '#0b0f14',
+    primaryTextColor: '#e5e7eb',
+    secondaryTextColor: '#cbd5e1',
+    borderColor: '#1f2937',
+    isDark: true,
   },
   light: {
-    backgroundColor: '#ffffff',
-    primaryTextColor: '#0D1117',
-    secondaryTextColor: '#4b5563',
-    borderColor: '#e1e4e8',
+    backgroundColor: '#f8fafc',
+    primaryTextColor: '#0f172a',
+    secondaryTextColor: '#334155',
+    borderColor: '#cbd5e1',
+    isDark: false,
   },
   gradient: {
     backgroundColor: 'gradient',
-    primaryTextColor: '#ffffff',
-    secondaryTextColor: '#f9fafb',
-    borderColor: '#e1e4e8',
+    primaryTextColor: '#e5e7eb',
+    secondaryTextColor: '#cbd5e1',
+    borderColor: '#1f2937',
+    isDark: true,
   },
   cyberpunk: {
     backgroundColor: '#0a0e27',
     primaryTextColor: '#00ff00',
     secondaryTextColor: '#00ccff',
     borderColor: '#ff00ff',
+    isDark: true,
   },
 };
 
@@ -68,11 +73,10 @@ export function drawBackground(
   canvasHeight: number,
 ) {
   if (bgColor === 'gradient') {
-    // Create gradient background
     const gradient = ctx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
-    gradient.addColorStop(0, '#667eea');
-    gradient.addColorStop(0.5, '#764ba2');
-    gradient.addColorStop(1, '#f093fb');
+    gradient.addColorStop(0, '#0f172a');
+    gradient.addColorStop(0.5, '#111827');
+    gradient.addColorStop(1, '#0b1220');
     ctx.fillStyle = gradient;
   } else {
     ctx.fillStyle = bgColor;
@@ -164,7 +168,9 @@ export function drawRepoInfo(
   quadrantY: number,
   quadrantW: number,
   quadrantH: number,
+  theme?: any,
 ) {
+  const currentTheme = theme || canvasUi;
   const padding = canvasUi.padding;
   const maxWidth = quadrantW - padding * 2;
 
@@ -199,7 +205,7 @@ export function drawRepoInfo(
 
   // Line 1: Username + separator
   ctx.font = usernameFont;
-  ctx.fillStyle = canvasUi.secondaryTextColor;
+  ctx.fillStyle = currentTheme.secondaryTextColor;
   ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
   ctx.fillText(username + ' / ', startX, currentY);
@@ -207,14 +213,14 @@ export function drawRepoInfo(
 
   // Line 2: Repo name
   ctx.font = repoFont;
-  ctx.fillStyle = canvasUi.primaryTextColor;
+  ctx.fillStyle = currentTheme.primaryTextColor;
   const wrappedRepoName = wrapRepoName(ctx, repoName, quadrantW + padding * 3);
   ctx.fillText(wrappedRepoName, startX, currentY);
   currentY += repoFontSize + gapBetweenRepoAndDesc;
 
   // Description block (truncated)
   ctx.font = descFont;
-  ctx.fillStyle = canvasUi.secondaryTextColor;
+  ctx.fillStyle = currentTheme.secondaryTextColor;
   visibleDescLines.forEach((line) => {
     ctx.fillText(line, startX, currentY);
     currentY += lineHeightPx;
@@ -332,7 +338,12 @@ function drawStatItem(
   const startY = centerY - totalHeight / 2;
 
   // Draw icon
+  ctx.save();
+  if (!theme.isDark) {
+    ctx.filter = 'invert(1)';
+  }
   ctx.drawImage(stat.icon, topRowStartX, startY, iconSize, iconSize);
+  ctx.restore();
 
   // Draw number (aligned to icon baseline)
   ctx.font = numberFont;
@@ -354,24 +365,26 @@ export function drawLogo(
   quadrantY: number,
   quadrantW: number,
   quadrantH: number,
+  theme?: any,
 ) {
   const img = new Image();
 
   img.onload = () => {
     // Calculate logo dimensions
-    const logoWidth = 64;
+    const logoWidth = 68;
     const logoHeight = (img.height / img.width) * logoWidth;
 
     // Position in bottom-right of quadrant
     const x = quadrantX + quadrantW - logoWidth - canvasUi.padding;
     const y = quadrantY + quadrantH - logoHeight - canvasUi.padding;
 
-    ctx.globalAlpha = 0.3;
+    ctx.save();
+    ctx.globalAlpha = theme?.isDark === false ? 0.5 : 0.28;
     ctx.drawImage(img, x, y, logoWidth, logoHeight);
-    ctx.globalAlpha = 1.0;
+    ctx.restore();
   };
 
-  img.src = 'reposhot-logo.svg';
+  img.src = '/snaprepo-logo.png';
 }
 
 export function drawTopLanguages(
@@ -381,10 +394,14 @@ export function drawTopLanguages(
   quadrantY: number,
   quadrantW: number,
   quadrantH: number,
+  theme?: any,
 ) {
   if (!languages || languages.length === 0) {
     return;
   }
+
+  const currentTheme = theme || canvasUi;
+  const isDark = currentTheme.isDark ?? true;
 
   // Use top 5 languages max
   const topLanguages = languages.slice(0, 5);
@@ -426,8 +443,8 @@ export function drawTopLanguages(
     const badgeY = centerY - badgeHeight / 2;
 
     // Draw badge background
-    ctx.fillStyle = 'rgba(99, 102, 241, 0.15)';
-    ctx.strokeStyle = 'rgba(99, 102, 241, 0.5)';
+    ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(15, 23, 42, 0.08)';
+    ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.18)' : 'rgba(15, 23, 42, 0.2)';
     ctx.lineWidth = 2;
     
     // Rounded rectangle
@@ -463,7 +480,7 @@ export function drawTopLanguages(
 
     // Draw language text
     ctx.font = labelFont;
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = currentTheme.primaryTextColor;
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
     const textX = badgeX + badgePadding + iconSize + 8;
@@ -508,11 +525,27 @@ export function drawWatermark(
   x: number,
   y: number,
   primaryTextColor: string,
+  theme?: any,
 ) {
+  const logoSize = 26;
+  const gap = 10;
+  const logoX = x - logoSize;
+  const logoY = y - logoSize + 6;
+  const textX = logoX - gap;
+
   ctx.font = 'italic 18px "Instrument Serif", serif';
   ctx.fillStyle = primaryTextColor;
-  ctx.globalAlpha = 0.5;
+  ctx.globalAlpha = 0.65;
   ctx.textAlign = 'right';
-  ctx.fillText(text, x, y);
+  ctx.fillText(text, textX, y);
   ctx.globalAlpha = 1;
+
+  const logoImg = new Image();
+  logoImg.onload = () => {
+    ctx.save();
+    ctx.globalAlpha = theme?.isDark === false ? 0.8 : 0.6;
+    ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize);
+    ctx.restore();
+  };
+  logoImg.src = '/snaprepo-logo.png';
 }
