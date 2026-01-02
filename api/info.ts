@@ -31,15 +31,20 @@ export default async (req: VercelRequest, res: VercelResponse): Promise<void> =>
 
   try {
     // Fetch repository data from GitHub API
-    const githubToken = process.env['GITHUB_TOKEN'] || '';
+    const githubToken = process.env.GITHUB_TOKEN || '';
+    
+    // Build headers - token is optional
+    const headers: any = {
+      'Accept': 'application/vnd.github.v3+json',
+    };
+    
+    if (githubToken) {
+      headers['Authorization'] = `token ${githubToken}`;
+    }
+    
     const repoResponse = await axios.get(
       `https://api.github.com/repos/${owner}/${repo}`,
-      {
-        headers: {
-          Authorization: `token ${githubToken}`,
-          'Accept': 'application/vnd.github.v3+json',
-        },
-      }
+      { headers }
     );
 
     const repoData = repoResponse.data;
@@ -49,11 +54,7 @@ export default async (req: VercelRequest, res: VercelResponse): Promise<void> =>
     try {
       const langResponse = await axios.get(
         `https://api.github.com/repos/${owner}/${repo}/languages`,
-        {
-          headers: {
-            Authorization: `token ${githubToken}`,
-          },
-        }
+        { headers }
       );
       topLanguages = Object.keys(langResponse.data).slice(0, 5);
     } catch (err) {
