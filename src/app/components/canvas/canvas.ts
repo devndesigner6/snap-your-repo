@@ -57,8 +57,10 @@ export class Canvas implements AfterViewInit {
     
     drawBackground(this.#ctx, theme.backgroundColor, canvas.width, canvas.height);
     
-    // Calculate language badge position (centered between avatar and watermark)
-    const langY = canvas.height / 2 + 80;
+    // Calculate language badge position (right side, above watermark)
+    const langY = canvas.height - 100;
+    const langX = canvas.width - 380;
+    const langWidth = 360;
     
     // Load avatar image and redraw when ready
     const avatarImg = new Image();
@@ -92,8 +94,8 @@ export class Canvas implements AfterViewInit {
         quadrant.height,
         theme,
       );
-      // Draw languages centered between avatar and watermark
-      drawTopLanguages(this.#ctx, data.topLanguages, 0, langY, canvas.width, 100, theme, 0.5);
+      // Draw languages (right side, above watermark)
+      drawTopLanguages(this.#ctx, data.topLanguages, langX, langY, langWidth, 60, theme, 0.5);
       
       // Draw watermark if enabled
       if (this.showWatermark()) {
@@ -124,7 +126,7 @@ export class Canvas implements AfterViewInit {
         quadrant.height,
         theme,
       );
-      drawTopLanguages(this.#ctx, data.topLanguages, 0, langY, canvas.width, 100, theme, 0.5);
+      drawTopLanguages(this.#ctx, data.topLanguages, langX, langY, langWidth, 60, theme, 0.5);
       
       if (this.showWatermark()) {
         drawWatermark(

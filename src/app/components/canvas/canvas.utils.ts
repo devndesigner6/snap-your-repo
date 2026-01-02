@@ -409,12 +409,12 @@ export function drawTopLanguages(
   // Use top 3 languages max
   const topLanguages = languages.slice(0, 3);
 
-  // 2. Layout config
-  const iconSize = 32;
-  const itemGap = 16;
-  const badgeHeight = 44;
-  const badgePadding = 12;
-  const labelFont = 'bold 13px sans-serif';
+  // 2. Layout config - smaller, more minimalistic
+  const iconSize = 22;
+  const itemGap = 10;
+  const badgeHeight = 32;
+  const badgePadding = 8;
+  const labelFont = 'bold 11px sans-serif';
 
   // 3. Measure total width needed
   ctx.font = labelFont;
@@ -481,7 +481,7 @@ export function drawTopLanguages(
       ctx.closePath();
       ctx.fill();
       ctx.stroke();
-      ctx.font = 'bold 16px sans-serif';
+      ctx.font = 'bold 12px sans-serif';
       ctx.fillStyle = currentTheme.primaryTextColor;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
