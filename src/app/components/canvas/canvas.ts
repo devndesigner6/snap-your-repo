@@ -89,7 +89,9 @@ export class Canvas implements AfterViewInit {
         quadrant.height,
         theme,
       );
-      drawTopLanguages(this.#ctx, data.topLanguages, Q2.x, Q2.y, quadrant.width, quadrant.height, theme, 0.8);
+      // Draw languages centered between avatar and watermark
+      const langY = canvas.height / 2 + 80;
+      drawTopLanguages(this.#ctx, data.topLanguages, 0, langY, canvas.width, 100, theme, 0.5);
       
       // Draw watermark if enabled
       if (this.showWatermark()) {
@@ -120,7 +122,7 @@ export class Canvas implements AfterViewInit {
         quadrant.height,
         theme,
       );
-      drawTopLanguages(this.#ctx, data.topLanguages, Q2.x, Q2.y, quadrant.width, quadrant.height, theme, 0.8);
+      drawTopLanguages(this.#ctx, data.topLanguages, 0, langY, canvas.width, 100, theme, 0.5);
       
       if (this.showWatermark()) {
         drawWatermark(
