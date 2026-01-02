@@ -77,26 +77,25 @@ export class Canvas implements AfterViewInit {
         theme,
       );
       drawStats(
+        this.#ctx,
+        {
           stars: data.stars,
           forks: data.forks,
           issues: data.issues,
-          forks: this.canvasData().forks,
-          issues: this.canvasData().issues,
         },
         Q3.x,
         Q3.y,
         quadrant.width,
         quadrant.height,
-      drawTopLanguages(this.#ctx, data.topLanguages, Q2.x, Q2.y, quadrant.width, quadrant.height, theme, 0.8);
         theme,
       );
-      // Logo already handled in watermark to avoid duplication
+      drawTopLanguages(this.#ctx, data.topLanguages, Q2.x, Q2.y, quadrant.width, quadrant.height, theme, 0.8);
       
       // Draw watermark if enabled
-          'SnapRepo',
+      if (this.showWatermark()) {
         drawWatermark(
           this.#ctx,
-          'Made with SnapRepo',
+          'SnapRepo',
           canvas.width - 60,
           canvas.height - 40,
           theme.primaryTextColor,
