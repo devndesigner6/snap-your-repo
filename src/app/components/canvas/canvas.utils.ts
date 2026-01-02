@@ -35,17 +35,17 @@ export const themeConfigs: Record<string, any> = {
     secondaryTextColor: '#4b5563',
     borderColor: '#e1e4e8',
   },
-  matrix: {
-    backgroundColor: '#000000',
-    primaryTextColor: '#00ff41',
-    secondaryTextColor: '#00cc33',
-    borderColor: '#00ff41',
-  },
   gradient: {
     backgroundColor: 'gradient',
     primaryTextColor: '#ffffff',
     secondaryTextColor: '#f9fafb',
     borderColor: '#e1e4e8',
+  },
+  cyberpunk: {
+    backgroundColor: '#0a0e27',
+    primaryTextColor: '#00ff00',
+    secondaryTextColor: '#00ccff',
+    borderColor: '#ff00ff',
   },
 };
 
@@ -427,9 +427,9 @@ export function drawTopLanguages(
     const badgeX = currentX;
     const badgeY = centerY - badgeHeight / 2;
 
-    // Draw badge background with animation effect
-    ctx.fillStyle = 'rgba(14, 165, 233, 0.2)';
-    ctx.strokeStyle = 'rgba(14, 165, 233, 0.6)';
+    // Draw badge background
+    ctx.fillStyle = 'rgba(99, 102, 241, 0.15)';
+    ctx.strokeStyle = 'rgba(99, 102, 241, 0.5)';
     ctx.lineWidth = 2;
     
     // Rounded rectangle
@@ -511,23 +511,10 @@ export function drawWatermark(
   y: number,
   primaryTextColor: string,
 ) {
-  // Load and draw logo
-  const logo = new Image();
-  logo.onload = () => {
-    const logoSize = 24;
-    const logoX = x - 120;
-    const logoY = y - logoSize / 2 - 4;
-    
-    ctx.globalAlpha = 0.6;
-    ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
-    
-    // Draw text next to logo
-    ctx.font = 'bold 16px "Instrument Serif", serif';
-    ctx.fillStyle = primaryTextColor;
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('SnapRepo', logoX + logoSize + 8, y);
-    ctx.globalAlpha = 1;
-  };
-  logo.src = '/snaprepo-logo.png';
+  ctx.font = 'italic 18px "Instrument Serif", serif';
+  ctx.fillStyle = primaryTextColor;
+  ctx.globalAlpha = 0.5;
+  ctx.textAlign = 'right';
+  ctx.fillText(text, x, y);
+  ctx.globalAlpha = 1;
 }

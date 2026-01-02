@@ -6,8 +6,10 @@
 html,
 body {
   height: 100%;
-  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
-  background: #000;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background: radial-gradient(ellipse at top, rgba(59, 130, 246, 0.15), transparent),
+              radial-gradient(ellipse at bottom, rgba(139, 92, 246, 0.15), transparent),
+              #000;
   background-attachment: fixed;
 }
 body {
@@ -17,32 +19,31 @@ body {
   overflow-x: hidden;
 }
 
-/* Matrix Rain Effect */
 body::before {
   content: '';
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    linear-gradient(transparent 50%, rgba(0, 255, 65, 0.03) 50%),
-    linear-gradient(90deg, transparent 50%, rgba(0, 255, 65, 0.03) 50%);
-  background-size: 20px 20px, 20px 20px;
-  animation: matrixRain 20s linear infinite;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(139, 92, 246, 0.03) 2px,
+    rgba(139, 92, 246, 0.03) 4px
+  );
+  animation: shimmer 20s linear infinite;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.3;
 }
 
-@keyframes matrixRain {
+@keyframes shimmer {
   0% {
     transform: translateY(0);
-    opacity: 0.3;
   }
   100% {
-    transform: translateY(20px);
-    opacity: 0.3;
+    transform: translateY(50px);
   }
 }
 
@@ -224,7 +225,7 @@ mat-form-field:focus-within::after {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
-/* Premium Glassmorphism with Animated Gradient Border - Dark Theme */
+/* Premium Glassmorphism with Animated Gradient Border */
 .glassmorphism {
   position: relative;
   overflow: visible;
@@ -234,20 +235,19 @@ mat-form-field:focus-within::after {
 .glassmorphism::before {
   content: '';
   position: absolute;
-  inset: -3px;
-  border-radius: 28px;
-  padding: 3px;
+  inset: -2px;
+  border-radius: 24px;
+  padding: 2px;
   background: linear-gradient(
-    60deg,
-    #1e40af,
-    #0891b2,
-    #0d9488,
-    #059669,
-    #1e40af
+    45deg,
+    #3b82f6,
+    #8b5cf6,
+    #ec4899,
+    #f59e0b,
+    #3b82f6
   );
-  background-size: 400% 400%;
-  animation: gradientRotate 10s linear infinite;
-  filter: blur(1px) brightness(1.1);
+  background-size: 300% 300%;
+  animation: gradientRotate 6s ease infinite;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -258,23 +258,23 @@ mat-form-field:focus-within::after {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 26px;
-  background: rgba(5, 10, 20, 0.85);
-  backdrop-filter: blur(40px) saturate(150%);
-  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border-radius: 22px;
+  background: rgba(15, 15, 35, 0.75);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 
-    0 20px 60px rgba(0, 0, 0, 0.8),
-    0 0 60px rgba(14, 165, 233, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    0 8px 32px 0 rgba(31, 38, 135, 0.37),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+    0 0 60px rgba(139, 92, 246, 0.3);
   z-index: -1;
 }
 
 @keyframes gradientRotate {
-  0% {
+  0%, 100% {
     background-position: 0% 50%;
   }
-  100% {
+  50% {
     background-position: 100% 50%;
   }
 }
@@ -282,86 +282,52 @@ mat-form-field:focus-within::after {
 /* Enhanced Liquid animation background */
 .liquid-animation {
   position: absolute;
-  top: -50%;
-  left: -50%;
-  right: -50%;
-  bottom: -50%;
-  background: 
-    radial-gradient(circle at 30% 40%, rgba(14, 165, 233, 0.4) 0%, transparent 50%),
-    radial-gradient(circle at 70% 60%, rgba(6, 182, 212, 0.3) 0%, transparent 50%);
+  top: -100%;
+  left: -100%;
+  right: -100%;
+  bottom: -100%;
+  background: radial-gradient(
+    circle at center,
+    rgba(139, 92, 246, 0.4) 0%,
+    rgba(59, 130, 246, 0.3) 25%,
+    rgba(236, 72, 153, 0.3) 50%,
+    rgba(245, 158, 11, 0.2) 75%,
+    transparent 100%
+  );
   animation: liquidFloat 20s ease-in-out infinite;
   z-index: 0;
   pointer-events: none;
   filter: blur(60px);
-  opacity: 0.7;
-}
-
-.liquid-animation-small {
-  position: absolute;
-  inset: 0;
-  background: 
-    radial-gradient(circle at 20% 30%, rgba(14, 165, 233, 0.2) 0%, transparent 60%),
-    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.2) 0%, transparent 60%);
-  animation: liquidFloat 15s ease-in-out infinite;
-  z-index: 0;
-  pointer-events: none;
-  filter: blur(30px);
-  border-radius: inherit;
+  opacity: 0.6;
 }
 
 @keyframes liquidFloat {
   0%, 100% {
-    transform: translate(0, 0) rotate(0deg);
+    transform: translate(0, 0) scale(1);
   }
   33% {
-    transform: translate(20%, -20%) rotate(120deg);
+    transform: translate(20%, -20%) scale(1.1);
   }
   66% {
-    transform: translate(-20%, 20%) rotate(240deg);
+    transform: translate(-20%, 20%) scale(0.9);
   }
-}
-
-/* Glass Control Cards */
-.glass-control {
-  position: relative;
-  background: rgba(5, 10, 20, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    0 0 20px rgba(14, 165, 233, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-}
-
-.glass-control:hover {
-  border-color: rgba(14, 165, 233, 0.3);
-  box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.5),
-    0 0 40px rgba(14, 165, 233, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
 }
 
 /* Gradient text effect */
 .gradient-text {
-  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 25%, #f472b6 50%, #fb923c 75%, #60a5fa 100%);
-  background-size: 200% 200%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: gradientTextShift 5s ease infinite;
-  filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.6));
+  animation: gradientShift 3s ease infinite;
 }
 
-@keyframes gradientTextShift {
+@keyframes gradientShift {
   0%, 100% {
-    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
   }
   50% {
-    background-position: 100% 50%;
+    filter: hue-rotate(20deg);
   }
 }
 
