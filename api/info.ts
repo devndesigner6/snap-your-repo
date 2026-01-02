@@ -31,7 +31,7 @@ export default async (req: VercelRequest, res: VercelResponse): Promise<void> =>
 
   try {
     // Fetch repository data from GitHub API
-    const githubToken = process.env.GITHUB_TOKEN || '';
+    const githubToken = process.env['GITHUB_TOKEN'] || '';
     
     // Build headers - token is optional
     const headers: any = {
