@@ -162,12 +162,14 @@ export class Canvas implements AfterViewInit {
     this.#draw();
   }
 
-  downloadImage() {
-    const canvasURL = this.canvas().nativeElement.toDataURL();
+  public downloadImage = () => {
+    const canvasEl = this.canvas()?.nativeElement;
+    if (!canvasEl) return;
+    const canvasURL = canvasEl.toDataURL();
     const el = document.createElement('a');
     el.href = canvasURL;
     el.download = this.#imageName;
     el.click();
     el.remove();
-  }
+  };
 }
