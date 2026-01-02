@@ -68,7 +68,7 @@ export default async (req: VercelRequest, res: VercelResponse): Promise<void> =>
     const formattedData = {
       link: repoData.html_url,
       owner: repoData.owner.login,
-      repo: repoData.name,
+      name: repoData.name,
       description: repoData.description || 'No description',
       stars: repoData.stargazers_count || 0,
       forks: repoData.forks_count || 0,
