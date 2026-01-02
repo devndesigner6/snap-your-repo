@@ -58,9 +58,9 @@ export class Canvas implements AfterViewInit {
     drawBackground(this.#ctx, theme.backgroundColor, canvas.width, canvas.height);
     
     // Calculate language badge position (right side, above watermark)
-    const langY = canvas.height - 100;
-    const langX = canvas.width - 380;
-    const langWidth = 360;
+    const langY = canvas.height - 130;
+    const langX = canvas.width - 400;
+    const langWidth = 380;
     
     // Load avatar image and redraw when ready
     const avatarImg = new Image();
