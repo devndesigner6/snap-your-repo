@@ -7,14 +7,14 @@
     </p>
   </div>
 
-  <mat-form-field class="w-full relative z-10" subscriptSizing="dynamic" [class.skeleton]="loading()">
+  <mat-form-field class="w-full relative z-10" subscriptSizing="dynamic">
     <mat-label>Repository URL</mat-label>
-    <input matInput [value]="link()" (input)="onInputEvent($event)" placeholder="https://github.com/owner/repo" [disabled]="loading()" />
+    <input matInput [value]="link()" (input)="onInputEvent($event)" placeholder="https://github.com/owner/repo" />
   </mat-form-field>
 
-  <mat-form-field class="w-full relative z-10" subscriptSizing="dynamic" [class.skeleton]="loading()">
+  <mat-form-field class="w-full relative z-10" subscriptSizing="dynamic">
     <mat-label>Card Theme</mat-label>
-    <mat-select [value]="cardTheme()" (selectionChange)="cardTheme.set($event.value); themeChange.emit($event.value)" [disabled]="loading()">
+    <mat-select [value]="cardTheme()" (selectionChange)="cardTheme.set($event.value); themeChange.emit($event.value)">
       <mat-option value="dark">Dark (GitHub)</mat-option>
       <mat-option value="light">Light</mat-option>
       <mat-option value="gradient">Gradient</mat-option>
@@ -37,20 +37,10 @@
 
   <button
     matButton="filled"
-    class="w-full h-12 text-sm sm:text-base font-medium relative z-10 gradient-button"
+    class="w-full h-12 text-sm sm:text-base font-medium relative z-10"
     (click)="onSubmit()"
     [disabled]="loading()"
   >
-    @if (loading()) {
-      <span class="flex items-center justify-center gap-2">
-        <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        {{ buttonText() }}
-      </span>
-    } @else {
-      {{ buttonText() }}
-    }
+    {{ buttonText() }}
   </button>
 </form>
