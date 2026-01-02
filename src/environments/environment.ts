@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   allowApiCalls: true,
-  apiUrl: 'https://api.snaprepo.shobhitnagpal.com',
+  apiUrl: 'https://snap-your-repo.vercel.app',
 };
