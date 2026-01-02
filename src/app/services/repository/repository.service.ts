@@ -35,8 +35,19 @@ export class RepositoryService {
           return response.data;
         }),
         catchError((err) => {
-          // Handle HTTP errors (network, 404, 500, etc.)
-          const message = err.error?.error || err.message || 'Failed to fetch repository';
+          // Handle all error types
+          let message = 'Failed to fetch repository';
+          
+          if (err instanceof Error) {
+            message = err.message;
+          } else if (err.error?.error) {
+            message = err.error.error;
+          } else if (err.error?.message) {
+            message = err.error.message;
+          } else if (typeof err.error === 'string') {
+            message = err.error;
+          }
+          
           return throwError(() => new Error(message));
         }),
       );
