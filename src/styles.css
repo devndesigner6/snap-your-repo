@@ -6,51 +6,44 @@
 html,
 body {
   height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
   background: #000;
-  color: #fff;
+  background-attachment: fixed;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  position: relative;
   overflow-x: hidden;
 }
 
-/* Matrix Rain Background Effect */
+/* Matrix Rain Effect */
 body::before {
-  content: "01010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101";
+  content: '';
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  font-family: 'Courier New', monospace;
-  font-size: 14px;
-  color: rgba(0, 255, 65, 0.15);
-  line-height: 20px;
-  letter-spacing: 10px;
-  word-wrap: break-word;
-  overflow: hidden;
-  animation: matrixFall 20s linear infinite;
+  background-image: 
+    linear-gradient(transparent 50%, rgba(0, 255, 65, 0.03) 50%),
+    linear-gradient(90deg, transparent 50%, rgba(0, 255, 65, 0.03) 50%);
+  background-size: 20px 20px, 20px 20px;
+  animation: matrixRain 20s linear infinite;
   pointer-events: none;
   z-index: 0;
-  text-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+  opacity: 0.3;
 }
 
-@keyframes matrixFall {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
-}
-
-/* Light mode */
-:root[data-theme='light'] body,
-[data-theme='light'] body {
-  background: #f5f5f5;
-  color: #1a1a1a;
-}
-
-:root[data-theme='light'] body::before,
-[data-theme='light'] body::before {
-  color: rgba(0, 0, 0, 0.05);
-  text-shadow: none;
+@keyframes matrixRain {
+  0% {
+    transform: translateY(0);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(20px);
+    opacity: 0.3;
+  }
 }
 
 /* Smooth theme transitions */
@@ -234,26 +227,56 @@ mat-form-field:focus-within::after {
 /* Premium Glassmorphism with Animated Gradient Border - Dark Theme */
 .glassmorphism {
   position: relative;
-  background: rgba(15, 20, 25, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   overflow: visible;
   z-index: 1;
 }
 
-:root[data-theme='light'] .glassmorphism,
-[data-theme='light'] .glassmorphism {
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+.glassmorphism::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 28px;
+  padding: 3px;
+  background: linear-gradient(
+    60deg,
+    #1e40af,
+    #0891b2,
+    #0d9488,
+    #059669,
+    #1e40af
+  );
+  background-size: 400% 400%;
+  animation: gradientRotate 10s linear infinite;
+  filter: blur(1px) brightness(1.1);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: -1;
 }
 
-/* Remove liquid animations */
-.liquid-animation,
-.liquid-animation-small {
-  display: none !important;
+.glassmorphism::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  background: rgba(5, 10, 20, 0.85);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.8),
+    0 0 60px rgba(14, 165, 233, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  z-index: -1;
+}
+
+@keyframes gradientRotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
 }
 
 /* Enhanced Liquid animation background */
@@ -301,28 +324,25 @@ mat-form-field:focus-within::after {
 /* Glass Control Cards */
 .glass-control {
   position: relative;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(5, 10, 20, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.2s ease;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(14, 165, 233, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
 
 .glass-control:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.15);
-}
-
-:root[data-theme='light'] .glass-control,
-[data-theme='light'] .glass-control {
-  background: rgba(0, 0, 0, 0.03);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-:root[data-theme='light'] .glass-control:hover,
-[data-theme='light'] .glass-control:hover {
-  background: rgba(0, 0, 0, 0.05);
-  border-color: rgba(0, 0, 0, 0.12);
+  border-color: rgba(14, 165, 233, 0.3);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(14, 165, 233, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
 /* Gradient text effect */
