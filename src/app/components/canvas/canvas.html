@@ -1,6 +1,44 @@
-<div class="space-y-4 w-full max-w-[1200px] mx-auto px-4">
+<div class="space-y-6 w-full max-w-[1200px] mx-auto px-4">
   <canvas #snaprepoCanvas class="w-full h-auto block"></canvas>
+  
+  <!-- Download Button -->
   <button matButton="outlined" class="w-full h-12 text-base font-medium" (click)="downloadImage()">
     Download
   </button>
+
+  <!-- Social Sharing Buttons -->
+  <div class="flex justify-center gap-8 pt-4">
+    <a href="https://twitter.com/intent/tweet?text=Check%20out%20my%20repo%20snapshot%20made%20with%20SnapRepo!%20https%3A%2F%2Fsnaprepo.vercel.app" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       class="text-gray-600 dark:text-gray-400 hover:text-blue-400 transition-colors"
+       title="Share on Twitter">
+      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 9 0 11-4s1-6.67 0-7.5c0 0 1 0 1.44-.37z"/>
+      </svg>
+    </a>
+    
+    <a href="https://www.instagram.com/" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       class="text-gray-600 dark:text-gray-400 hover:text-pink-400 transition-colors"
+       title="Share on Instagram">
+      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/>
+        <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" fill="none" stroke="currentColor" stroke-width="2"/>
+        <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
+      </svg>
+    </a>
+    
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fsnaprepo.vercel.app" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       class="text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors"
+       title="Share on LinkedIn">
+      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+        <circle cx="4" cy="4" r="2"/>
+      </svg>
+    </a>
+  </div>
 </div>
