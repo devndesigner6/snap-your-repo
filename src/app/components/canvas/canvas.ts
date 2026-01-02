@@ -1,5 +1,5 @@
 import { Repository } from '@/types';
-import { AfterViewInit, Component, ElementRef, input, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, effect, input, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   canvas,
@@ -32,6 +32,14 @@ export class Canvas implements AfterViewInit {
 
   #ctx: CanvasRenderingContext2D;
   #imageName = 'snaprepo-image.png';
+  #redrawEffect = effect(() => {
+    const data = this.canvasData();
+    this.cardTheme();
+    this.showWatermark();
+
+    if (!this.#ctx || !data) return;
+    this.#drawSnapshot();
+  });
 
   ngAfterViewInit(): void {
     this.#initSetup();
@@ -42,6 +50,9 @@ export class Canvas implements AfterViewInit {
   }
 
   #drawSnapshot() {
+    const data = this.canvasData();
+    if (!data) return;
+
     const theme = themeConfigs[this.cardTheme()] || themeConfigs['dark'];
     
     drawBackground(this.#ctx, theme.backgroundColor, canvas.width, canvas.height);
@@ -53,12 +64,12 @@ export class Canvas implements AfterViewInit {
     avatarImg.onload = () => {
       // Redraw everything with avatar and theme
       drawBackground(this.#ctx, theme.backgroundColor, canvas.width, canvas.height);
-      drawAvatarDirect(this.#ctx, avatarImg, Q2.x, Q2.y, quadrant.width, quadrant.height);
+      drawAvatarDirect(this.#ctx, avatarImg, Q2.x, Q2.y, quadrant.width, quadrant.height, theme);
       drawRepoInfo(
         this.#ctx,
-        this.canvasData().owner,
-        this.canvasData().name,
-        this.canvasData().description,
+        data.owner,
+        data.name,
+        data.description,
         Q1.x,
         Q1.y,
         quadrant.width,
@@ -66,9 +77,9 @@ export class Canvas implements AfterViewInit {
         theme,
       );
       drawStats(
-        this.#ctx,
-        {
-          stars: this.canvasData().stars,
+          stars: data.stars,
+          forks: data.forks,
+          issues: data.issues,
           forks: this.canvasData().forks,
           issues: this.canvasData().issues,
         },
@@ -76,21 +87,13 @@ export class Canvas implements AfterViewInit {
         Q3.y,
         quadrant.width,
         quadrant.height,
-        theme,
-      );
-      drawTopLanguages(
-        this.#ctx,
-        this.canvasData().topLanguages,
-        Q4.x,
-        Q4.y,
-        quadrant.width,
-        quadrant.height,
+      drawTopLanguages(this.#ctx, data.topLanguages, Q2.x, Q2.y, quadrant.width, quadrant.height, theme, 0.8);
         theme,
       );
       // Logo already handled in watermark to avoid duplication
       
       // Draw watermark if enabled
-      if (this.showWatermark()) {
+          'SnapRepo',
         drawWatermark(
           this.#ctx,
           'Made with SnapRepo',
@@ -104,23 +107,13 @@ export class Canvas implements AfterViewInit {
     
     avatarImg.onerror = () => {
       // If avatar fails, draw without it but continue
-      drawRepoInfo(
-        this.#ctx,
-        this.canvasData().owner,
-        this.canvasData().name,
-        this.canvasData().description,
-        Q1.x,
-        Q1.y,
-        quadrant.width,
-        quadrant.height,
-        theme,
-      );
+      drawRepoInfo(this.#ctx, data.owner, data.name, data.description, Q1.x, Q1.y, quadrant.width, quadrant.height, theme);
       drawStats(
         this.#ctx,
         {
-          stars: this.canvasData().stars,
-          forks: this.canvasData().forks,
-          issues: this.canvasData().issues,
+          stars: data.stars,
+          forks: data.forks,
+          issues: data.issues,
         },
         Q3.x,
         Q3.y,
@@ -128,20 +121,12 @@ export class Canvas implements AfterViewInit {
         quadrant.height,
         theme,
       );
-      drawTopLanguages(
-        this.#ctx,
-        this.canvasData().topLanguages,
-        Q4.x,
-        Q4.y,
-        quadrant.width,
-        quadrant.height,
-        theme,
-      );
+      drawTopLanguages(this.#ctx, data.topLanguages, Q2.x, Q2.y, quadrant.width, quadrant.height, theme, 0.8);
       
       if (this.showWatermark()) {
         drawWatermark(
           this.#ctx,
-          'Made with SnapRepo',
+          'SnapRepo',
           canvas.width - 60,
           canvas.height - 40,
           theme.primaryTextColor,
@@ -150,7 +135,7 @@ export class Canvas implements AfterViewInit {
       }
     };
     
-    avatarImg.src = this.canvasData().avatarUrl;
+    avatarImg.src = data.avatarUrl;
   }
 
   #setupCanvas() {

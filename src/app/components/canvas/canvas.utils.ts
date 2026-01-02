@@ -32,9 +32,9 @@ export const themeConfigs: Record<string, any> = {
     isDark: true,
   },
   light: {
-    backgroundColor: '#f8fafc',
-    primaryTextColor: '#0f172a',
-    secondaryTextColor: '#334155',
+    backgroundColor: '#f9fafb',
+    primaryTextColor: '#0b1220',
+    secondaryTextColor: '#1f2937',
     borderColor: '#cbd5e1',
     isDark: false,
   },
@@ -91,6 +91,7 @@ export function drawAvatar(
   quadrantY: number,
   quadrantW: number,
   quadrantH: number,
+  theme?: any,
 ) {
   // 1. Calculate center position within quadrant
   const centerX = quadrantX + canvasUi.padding + quadrantW / 2;
@@ -117,7 +118,7 @@ export function drawAvatar(
 
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-    ctx.strokeStyle = canvasUi.borderColor;
+    ctx.strokeStyle = (theme || canvasUi).borderColor;
     ctx.lineWidth = 3;
     ctx.stroke();
   };
@@ -132,6 +133,7 @@ export function drawAvatarDirect(
   quadrantY: number,
   quadrantW: number,
   quadrantH: number,
+  theme?: any,
 ) {
   // Draw already-loaded image synchronously
   const centerX = quadrantX + canvasUi.padding + quadrantW / 2;
@@ -154,7 +156,7 @@ export function drawAvatarDirect(
   // Draw border
   ctx.beginPath();
   ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-  ctx.strokeStyle = canvasUi.borderColor;
+  ctx.strokeStyle = (theme || canvasUi).borderColor;
   ctx.lineWidth = 3;
   ctx.stroke();
 }
@@ -395,6 +397,7 @@ export function drawTopLanguages(
   quadrantW: number,
   quadrantH: number,
   theme?: any,
+  centerRatio: number = 0.55,
 ) {
   if (!languages || languages.length === 0) {
     return;
@@ -431,7 +434,7 @@ export function drawTopLanguages(
 
   // 4. Calculate starting position (center horizontally and vertically)
   const startX = quadrantX + (quadrantW - totalWidth) / 2;
-  const centerY = quadrantY + quadrantH / 2;
+  const centerY = quadrantY + quadrantH * centerRatio;
 
   // 5. Render each language badge
   let currentX = startX;
@@ -550,25 +553,25 @@ export function drawWatermark(
   primaryTextColor: string,
   theme?: any,
 ) {
-  const logoSize = 26;
-  const gap = 10;
-  const logoX = x - logoSize;
-  const logoY = y - logoSize + 6;
-  const textX = logoX - gap;
-
-  ctx.font = 'italic 18px "Instrument Serif", serif';
-  ctx.fillStyle = primaryTextColor;
-  ctx.globalAlpha = 0.65;
-  ctx.textAlign = 'right';
-  ctx.fillText(text, textX, y);
-  ctx.globalAlpha = 1;
+  const logoSize = 22;
+  const gap = 8;
+  const iconY = y - logoSize + 5;
+  const iconX = x - logoSize;
+  const textX = iconX - gap;
 
   const logoImg = new Image();
   logoImg.onload = () => {
     ctx.save();
-    ctx.globalAlpha = theme?.isDark === false ? 0.8 : 0.6;
-    ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize);
+    ctx.globalAlpha = theme?.isDark === false ? 0.85 : 0.65;
+    ctx.drawImage(logoImg, iconX, iconY, logoSize, logoSize);
     ctx.restore();
+
+    ctx.font = '600 18px "Instrument Serif", serif';
+    ctx.fillStyle = primaryTextColor;
+    ctx.globalAlpha = theme?.isDark === false ? 0.9 : 0.75;
+    ctx.textAlign = 'right';
+    ctx.fillText(text, textX, y + 2);
+    ctx.globalAlpha = 1;
   };
   logoImg.src = '/snaprepo-logo.png';
 }
