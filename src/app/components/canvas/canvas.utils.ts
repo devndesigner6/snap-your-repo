@@ -164,7 +164,9 @@ export function drawRepoInfo(
   quadrantY: number,
   quadrantW: number,
   quadrantH: number,
+  theme?: any,
 ) {
+  const currentTheme = theme || canvasUi;
   const padding = canvasUi.padding;
   const maxWidth = quadrantW - padding * 2;
 
@@ -199,7 +201,7 @@ export function drawRepoInfo(
 
   // Line 1: Username + separator
   ctx.font = usernameFont;
-  ctx.fillStyle = canvasUi.secondaryTextColor;
+  ctx.fillStyle = currentTheme.secondaryTextColor;
   ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
   ctx.fillText(username + ' / ', startX, currentY);
@@ -207,14 +209,14 @@ export function drawRepoInfo(
 
   // Line 2: Repo name
   ctx.font = repoFont;
-  ctx.fillStyle = canvasUi.primaryTextColor;
+  ctx.fillStyle = currentTheme.primaryTextColor;
   const wrappedRepoName = wrapRepoName(ctx, repoName, quadrantW + padding * 3);
   ctx.fillText(wrappedRepoName, startX, currentY);
   currentY += repoFontSize + gapBetweenRepoAndDesc;
 
   // Description block (truncated)
   ctx.font = descFont;
-  ctx.fillStyle = canvasUi.secondaryTextColor;
+  ctx.fillStyle = currentTheme.secondaryTextColor;
   visibleDescLines.forEach((line) => {
     ctx.fillText(line, startX, currentY);
     currentY += lineHeightPx;
