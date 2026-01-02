@@ -64,6 +64,7 @@ export class Canvas implements AfterViewInit {
         Q1.y,
         quadrant.width,
         quadrant.height,
+        theme,
       );
       drawStats(
         this.#ctx,
@@ -76,6 +77,7 @@ export class Canvas implements AfterViewInit {
         Q3.y,
         quadrant.width,
         quadrant.height,
+        theme,
       );
       drawTopLanguages(this.#ctx, this.canvasData().topLanguages, Q4.x, Q4.y, quadrant.width, quadrant.height);
       drawLogo(this.#ctx, Q4.x, Q4.y, quadrant.width, quadrant.height);
@@ -97,6 +99,7 @@ export class Canvas implements AfterViewInit {
         Q1.y,
         quadrant.width,
         quadrant.height,
+        theme,
       );
       drawStats(
         this.#ctx,
@@ -109,6 +112,7 @@ export class Canvas implements AfterViewInit {
         Q3.y,
         quadrant.width,
         quadrant.height,
+        theme,
       );
       drawTopLanguages(this.#ctx, this.canvasData().topLanguages, Q4.x, Q4.y, quadrant.width, quadrant.height);
       drawLogo(this.#ctx, Q4.x, Q4.y, quadrant.width, quadrant.height);

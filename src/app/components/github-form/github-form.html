@@ -1,18 +1,18 @@
 <form class="w-full max-w-[600px] px-4 sm:px-6 space-y-6 fade-up glassmorphism rounded-2xl p-8 backdrop-blur-md">
   <div class="liquid-animation"></div>
-  <div class="space-y-2 flex flex-col items-center">
+  <div class="space-y-2 flex flex-col items-center relative z-10">
     <h1 class="text-3xl sm:text-4xl font-bold instrument-serif-italic">Snap Your Repository</h1>
     <p class="text-md sm:text-lg text-gray-600 dark:text-gray-400 instrument-serif">
       Enter a GitHub repository URL to get started
     </p>
   </div>
 
-  <mat-form-field class="w-full" subscriptSizing="dynamic">
+  <mat-form-field class="w-full relative z-10" subscriptSizing="dynamic">
     <mat-label>Repository URL</mat-label>
     <input matInput [value]="link()" (input)="onInputEvent($event)" placeholder="https://github.com/owner/repo" />
   </mat-form-field>
 
-  <mat-form-field class="w-full" subscriptSizing="dynamic">
+  <mat-form-field class="w-full relative z-10" subscriptSizing="dynamic">
     <mat-label>Card Theme</mat-label>
     <mat-select [value]="cardTheme()" (selectionChange)="cardTheme.set($event.value); themeChange.emit($event.value)">
       <mat-option value="dark">Dark (GitHub)</mat-option>
@@ -22,7 +22,7 @@
     </mat-select>
   </mat-form-field>
 
-  <div class="flex items-center gap-3 pl-2">
+  <div class="flex items-center gap-3 pl-2 relative z-10">
     <input 
       type="checkbox" 
       [checked]="showWatermark()" 
@@ -37,7 +37,7 @@
 
   <button
     matButton="filled"
-    class="w-full h-12 text-sm sm:text-base font-medium"
+    class="w-full h-12 text-sm sm:text-base font-medium relative z-10"
     (click)="onSubmit()"
     [disabled]="loading()"
   >

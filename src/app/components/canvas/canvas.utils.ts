@@ -275,7 +275,9 @@ export function drawStats(
   quadrantY: number,
   quadrantW: number,
   quadrantH: number,
+  theme?: any,
 ) {
+  const currentTheme = theme || canvasUi;
   const { stars, forks, issues } = stats;
 
   const statItems = [
@@ -333,14 +335,14 @@ function drawStatItem(
 
   // Draw number (aligned to icon baseline)
   ctx.font = numberFont;
-  ctx.fillStyle = canvasUi.primaryTextColor;
+  ctx.fillStyle = currentTheme.primaryTextColor;
   ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
   ctx.fillText(numberText, topRowStartX + iconSize + iconNumberGap, startY);
 
   // Draw label (centered below)
   ctx.font = labelFont;
-  ctx.fillStyle = canvasUi.secondaryTextColor;
+  ctx.fillStyle = currentTheme.secondaryTextColor;
   ctx.textAlign = 'left';
   ctx.fillText(stat.label, labelStartX, startY + topRowHeight + numberLabelGap);
 }
@@ -379,65 +381,96 @@ export function drawTopLanguages(
   quadrantW: number,
   quadrantH: number,
 ) {
-  if (!languages) {
+  if (!languages || languages.length === 0) {
     return;
   }
 
-  // 1. Filter - only keep languages we have icons for
-  const filteredLanguages = languages.filter((lang) => mapLanguageToSvg(lang));
-
-  // Early return if nothing to render
-  if (filteredLanguages.length === 0) {
-    return;
-  }
+  // Use top 5 languages max
+  const topLanguages = languages.slice(0, 5);
 
   // 2. Layout config
-  const iconSize = 32;
-  const itemGap = 40;
-  const labelFont = '18px sans-serif';
+  const iconSize = 40;
+  const itemGap = 24;
+  const badgeHeight = 56;
+  const badgePadding = 16;
+  const labelFont = 'bold 16px sans-serif';
 
   // 3. Measure total width needed
   ctx.font = labelFont;
 
+  const badges: { lang: string; width: number }[] = [];
   let totalWidth = 0;
-  const itemWidths: number[] = [];
 
-  filteredLanguages.forEach((_, index) => {
-    const itemWidth = iconSize;
-    itemWidths.push(itemWidth);
-
-    totalWidth += itemWidth;
-    if (index < filteredLanguages.length - 1) {
+  topLanguages.forEach((lang, index) => {
+    const textWidth = ctx.measureText(lang).width;
+    const badgeWidth = iconSize + badgePadding * 2 + textWidth + 8;
+    badges.push({ lang, width: badgeWidth });
+    totalWidth += badgeWidth;
+    if (index < topLanguages.length - 1) {
       totalWidth += itemGap;
     }
   });
 
   // 4. Calculate starting position (center horizontally and vertically)
-  const startX = quadrantX + canvasUi.padding + (quadrantW - totalWidth) / 2;
+  const startX = quadrantX + (quadrantW - totalWidth) / 2;
   const centerY = quadrantY + quadrantH / 2;
 
-  // 5. Render each language
+  // 5. Render each language badge
   let currentX = startX;
 
-  filteredLanguages.forEach((lang, index) => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous'; // Important for CDN
+  badges.forEach((badge, index) => {
+    const lang = badge.lang;
+    const badgeWidth = badge.width;
+    const badgeX = currentX;
+    const badgeY = centerY - badgeHeight / 2;
 
-    const xPosition = currentX;
-    const iconY = centerY - iconSize / 2;
-    img.onload = () => {
-      ctx.drawImage(img, xPosition, iconY, iconSize, iconSize);
-    };
+    // Draw badge background
+    ctx.fillStyle = 'rgba(99, 102, 241, 0.15)';
+    ctx.strokeStyle = 'rgba(99, 102, 241, 0.5)';
+    ctx.lineWidth = 2;
+    
+    // Rounded rectangle
+    const radius = 28;
+    ctx.beginPath();
+    ctx.moveTo(badgeX + radius, badgeY);
+    ctx.lineTo(badgeX + badgeWidth - radius, badgeY);
+    ctx.quadraticCurveTo(badgeX + badgeWidth, badgeY, badgeX + badgeWidth, badgeY + radius);
+    ctx.lineTo(badgeX + badgeWidth, badgeY + badgeHeight - radius);
+    ctx.quadraticCurveTo(badgeX + badgeWidth, badgeY + badgeHeight, badgeX + badgeWidth - radius, badgeY + badgeHeight);
+    ctx.lineTo(badgeX + radius, badgeY + badgeHeight);
+    ctx.quadraticCurveTo(badgeX, badgeY + badgeHeight, badgeX, badgeY + badgeHeight - radius);
+    ctx.lineTo(badgeX, badgeY + radius);
+    ctx.quadraticCurveTo(badgeX, badgeY, badgeX + radius, badgeY);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
 
-    img.onerror = () => {
-      console.warn(`Icon not found for ${lang}`);
-    };
-
+    // Try to load and draw icon
     const iconSvg = mapLanguageToSvg(lang);
-    img.src = `${devIconsCdn}/${iconSvg}`;
+    if (iconSvg) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      const iconX = badgeX + badgePadding;
+      const iconY = badgeY + (badgeHeight - iconSize) / 2;
+      
+      img.onload = () => {
+        ctx.drawImage(img, iconX, iconY, iconSize, iconSize);
+      };
+      
+      img.src = `${devIconsCdn}/${iconSvg}`;
+    }
 
-    // Move to next item position
-    currentX += itemWidths[index] + itemGap;
+    // Draw language text
+    ctx.font = labelFont;
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    const textX = badgeX + badgePadding + iconSize + 8;
+    const textY = badgeY + badgeHeight / 2;
+    ctx.fillText(lang, textX, textY);
+
+    // Move to next badge position
+    currentX += badgeWidth + itemGap;
   });
 }
 

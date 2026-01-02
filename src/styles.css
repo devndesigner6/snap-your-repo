@@ -70,17 +70,17 @@ input:focus {
 
 /* Card animations */
 .card-fade-in {
-  animation: fadeInScale 0.6s ease-out;
+  animation: fadeInScale 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes fadeInScale {
-  from {
+  0% {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.9) translateY(20px);
   }
-  to {
+  100% {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
   }
 }
 
@@ -94,34 +94,46 @@ input:focus {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
-/* Glassmorphism effect */
+/* Enhanced Glassmorphism effect */
 .glassmorphism {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37), 
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
 }
 
-/* Liquid animation background */
+/* Enhanced Liquid animation background */
 .liquid-animation {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
-  animation: liquidMove 8s ease-in-out infinite;
-  z-index: -1;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  background: linear-gradient(45deg, 
+    rgba(59, 130, 246, 0.3), 
+    rgba(139, 92, 246, 0.3),
+    rgba(236, 72, 153, 0.3),
+    rgba(59, 130, 246, 0.3));
+  background-size: 400% 400%;
+  animation: liquidMove 15s ease-in-out infinite;
+  z-index: 0;
   pointer-events: none;
+  filter: blur(40px);
 }
 
 @keyframes liquidMove {
-  0%, 100% {
-    background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+  0% {
+    background-position: 0% 50%;
   }
   50% {
-    background: linear-gradient(225deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
