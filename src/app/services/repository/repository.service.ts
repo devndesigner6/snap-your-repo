@@ -54,24 +54,44 @@ export class RepositoryService {
   }
 
   extractDetails(link: string): { owner: string; repo: string } {
-    // Remove trailing slash and .git if present
-    let cleanLink = link.endsWith('/') ? link.slice(0, -1) : link;
-    cleanLink = cleanLink.endsWith('.git') ? cleanLink.slice(0, -4) : cleanLink;
-
-    // Extract from URL
-    const linkParts = cleanLink.split('/');
-    
-    let repo = linkParts[linkParts.length - 1];
-    let owner = linkParts[linkParts.length - 2];
-
-    // Handle edge cases
-    if (!repo || !owner) {
+    try {
+      // Remove whitespace
+      let cleanLink = link.trim();
+      
+      // Add https if missing
+      if (!cleanLink.startsWith('http')) {
+        cleanLink = 'https://' + cleanLink;
+      }
+      
+      // Parse as URL
+      const url = new URL(cleanLink);
+      const pathname = url.pathname;
+      
+      // Split pathname: /owner/repo or /owner/repo.git
+      const parts = pathname.split('/').filter(part => part.length > 0);
+      
+      if (parts.length < 2) {
+        throw new Error('Invalid GitHub URL format');
+      }
+      
+      let owner = parts[0];
+      let repo = parts[1];
+      
+      // Remove .git suffix
+      if (repo.endsWith('.git')) {
+        repo = repo.slice(0, -4);
+      }
+      
+      if (!owner || !repo) {
+        throw new Error('Invalid GitHub URL format');
+      }
+      
+      return {
+        owner: owner.trim(),
+        repo: repo.trim(),
+      };
+    } catch (err) {
       throw new Error('Invalid GitHub URL format');
     }
-
-    return {
-      owner: owner.trim(),
-      repo: repo.trim(),
-    };
   }
 }
