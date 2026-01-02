@@ -6,15 +6,21 @@
 html,
 body {
   height: 100%;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
+/* Smooth theme transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
 .logo-filter {
   filter: brightness(0); /* Makes it black */
-  transition: filter 0.2s ease; /* Smooth transition */
+  transition: filter 0.3s ease; /* Smooth transition */
 }
 
 /* When dark theme is active */
@@ -27,6 +33,65 @@ body {
   font-family: "Instrument Serif", serif;
   font-weight: 400;
   font-style: normal;
+}
+
+.instrument-serif-italic {
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* Hover effects */
+button, input {
+  transition: all 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+input:focus {
+  transform: scale(1.01);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background-size: 200% 100%;
+  animation: loading 2s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Card animations */
+.card-fade-in {
+  animation: fadeInScale 0.6s ease-out;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Language badge animation */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.language-badge {
+  animation: pulse-glow 2s ease-in-out infinite;
 }
 
 .instrument-serif-italic {

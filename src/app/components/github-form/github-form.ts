@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RepositoryService } from '@/app/services/repository/repository.service';
@@ -10,7 +12,7 @@ import { MaybeRepository } from '@/types';
 
 @Component({
   selector: 'snaprepo-github-form',
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatCheckboxModule],
   templateUrl: './github-form.html',
 })
 export class GithubForm implements OnDestroy {
@@ -18,6 +20,8 @@ export class GithubForm implements OnDestroy {
 
   link = signal<string>('');
   loading = signal<boolean>(false);
+  cardTheme = signal<string>('dark');
+  showWatermark = signal<boolean>(true);
   protected buttonText = computed(() => (this.loading() ? 'Creating...' : 'Create snapshot'));
 
   #repositoryService = inject(RepositoryService);
