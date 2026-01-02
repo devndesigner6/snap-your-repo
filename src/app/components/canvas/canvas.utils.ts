@@ -553,24 +553,25 @@ export function drawWatermark(
   primaryTextColor: string,
   theme?: any,
 ) {
-  const logoSize = 22;
-  const gap = 8;
-  const iconY = y - logoSize + 5;
-  const iconX = x - logoSize;
-  const textX = iconX - gap;
+  const logoSize = 20;
+  const gap = 6;
+  const logoY = y - logoSize / 2 - 2;
 
   const logoImg = new Image();
   logoImg.onload = () => {
+    // Draw logo
     ctx.save();
     ctx.globalAlpha = theme?.isDark === false ? 0.85 : 0.65;
-    ctx.drawImage(logoImg, iconX, iconY, logoSize, logoSize);
+    ctx.drawImage(logoImg, x - logoSize - gap, logoY, logoSize, logoSize);
     ctx.restore();
 
-    ctx.font = '600 18px "Instrument Serif", serif';
+    // Draw text next to logo
+    ctx.font = 'bold 16px "Instrument Serif", serif';
     ctx.fillStyle = primaryTextColor;
-    ctx.globalAlpha = theme?.isDark === false ? 0.9 : 0.75;
-    ctx.textAlign = 'right';
-    ctx.fillText(text, textX, y + 2);
+    ctx.globalAlpha = theme?.isDark === false ? 0.9 : 0.7;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text, x - logoSize - gap - 6, y);
     ctx.globalAlpha = 1;
   };
   logoImg.src = '/snaprepo-logo.png';

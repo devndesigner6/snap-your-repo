@@ -170,5 +170,23 @@ export class Canvas implements AfterViewInit {
     el.download = this.#imageName;
     el.click();
     el.remove();
+    
+    // Trigger confetti animation
+    this.#triggerConfetti();
   };
+
+  #triggerConfetti() {
+    const colors = ['#5b7bff', '#7fb2ff', '#5ee4d6', '#60a5fa', '#34d399'];
+    for (let i = 0; i < 50; i++) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animation = `confetti-fall ${2 + Math.random()}s ease-in forwards`;
+      document.body.appendChild(confetti);
+      
+      setTimeout(() => confetti.remove(), 2500);
+    }
+  }
 }
