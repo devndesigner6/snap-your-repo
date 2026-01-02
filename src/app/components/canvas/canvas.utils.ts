@@ -406,15 +406,15 @@ export function drawTopLanguages(
   const currentTheme = theme || canvasUi;
   const isDark = currentTheme.isDark ?? true;
 
-  // Use top 5 languages max
-  const topLanguages = languages.slice(0, 5);
+  // Use top 3 languages max
+  const topLanguages = languages.slice(0, 3);
 
   // 2. Layout config
-  const iconSize = 40;
-  const itemGap = 24;
-  const badgeHeight = 56;
-  const badgePadding = 16;
-  const labelFont = 'bold 16px sans-serif';
+  const iconSize = 32;
+  const itemGap = 16;
+  const badgeHeight = 44;
+  const badgePadding = 12;
+  const labelFont = 'bold 13px sans-serif';
 
   // 3. Measure total width needed
   ctx.font = labelFont;
@@ -448,10 +448,10 @@ export function drawTopLanguages(
     // Draw badge background
     ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(15, 23, 42, 0.08)';
     ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.18)' : 'rgba(15, 23, 42, 0.2)';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1.5;
     
     // Rounded rectangle
-    const radius = 28;
+    const radius = 22;
     ctx.beginPath();
     ctx.moveTo(badgeX + radius, badgeY);
     ctx.lineTo(badgeX + badgeWidth - radius, badgeY);
@@ -473,15 +473,15 @@ export function drawTopLanguages(
 
     const drawFallbackIcon = () => {
       ctx.save();
-      ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(15, 23, 42, 0.1)';
-      ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.18)' : 'rgba(15, 23, 42, 0.18)';
-      ctx.lineWidth = 2;
+      ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(15, 23, 42, 0.12)';
+      ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(15, 23, 42, 0.2)';
+      ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.arc(iconX + iconSize / 2, iconY + iconSize / 2, iconSize / 2, 0, Math.PI * 2);
       ctx.closePath();
       ctx.fill();
       ctx.stroke();
-      ctx.font = '600 18px sans-serif';
+      ctx.font = 'bold 16px sans-serif';
       ctx.fillStyle = currentTheme.primaryTextColor;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -509,7 +509,7 @@ export function drawTopLanguages(
     ctx.fillStyle = currentTheme.primaryTextColor;
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
-    const textX = badgeX + badgePadding + iconSize + 8;
+    const textX = badgeX + badgePadding + iconSize + 6;
     const textY = badgeY + badgeHeight / 2;
     ctx.fillText(lang, textX, textY);
 
@@ -553,26 +553,27 @@ export function drawWatermark(
   primaryTextColor: string,
   theme?: any,
 ) {
-  const logoSize = 20;
+  const logoSize = 18;
   const gap = 6;
-  const logoY = y - logoSize / 2 - 2;
-
+  const textFont = 'bold 15px "Instrument Serif", serif';
+  
+  ctx.save();
+  
+  // Draw text first (right-to-left layout)
+  ctx.font = textFont;
+  ctx.fillStyle = primaryTextColor;
+  ctx.globalAlpha = theme?.isDark === false ? 0.85 : 0.65;
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, x - logoSize - gap * 2, y);
+  
+  // Draw logo at the end
   const logoImg = new Image();
   logoImg.onload = () => {
-    // Draw logo
-    ctx.save();
-    ctx.globalAlpha = theme?.isDark === false ? 0.85 : 0.65;
-    ctx.drawImage(logoImg, x - logoSize - gap, logoY, logoSize, logoSize);
-    ctx.restore();
-
-    // Draw text next to logo
-    ctx.font = 'bold 16px "Instrument Serif", serif';
-    ctx.fillStyle = primaryTextColor;
     ctx.globalAlpha = theme?.isDark === false ? 0.9 : 0.7;
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(text, x - logoSize - gap - 6, y);
-    ctx.globalAlpha = 1;
+    ctx.drawImage(logoImg, x - logoSize, y - logoSize / 2, logoSize, logoSize);
+    ctx.restore();
   };
+  logoImg.onerror = () => ctx.restore();
   logoImg.src = '/snaprepo-logo.png';
 }
