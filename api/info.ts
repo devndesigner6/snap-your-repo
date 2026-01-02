@@ -75,7 +75,7 @@ export default async (req: VercelRequest, res: VercelResponse): Promise<void> =>
       watchers: repoData.watchers_count || 0,
       issues: repoData.open_issues_count || 0,
       topLanguages: topLanguages,
-      avatar: repoData.owner.avatar_url,
+      avatarUrl: repoData.owner.avatar_url,
       updatedAt: repoData.updated_at,
     };
 
